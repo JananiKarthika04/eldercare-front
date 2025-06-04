@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Location | EldCare</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .header {
+      background: white;
+      padding: 10px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .back-btn, .logout-btn {
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 8px 16px;
+      transition: background-color 0.3s ease;
+      color: white;
+    }
+
+    .back-btn {
+      background-color: #1976d2;
+      width: 60px;
+    }
+
+    .back-btn:hover {
+      background-color: #0d47a1;
+    }
+
+    .logout-btn {
+      background-color: #d32f73;
+    }
+
+    .logout-btn:hover {
+      background-color: #b71c1c;
+    }
+
+    main {
+      padding: 30px;
+      text-align: center;
+      min-height: calc(100vh - 60px);
+      background: #f9f9f9;
+    }
+
+    h1 {
+      color: #1976d2;
+      margin-bottom: 20px;
+    }
+
+    #locationInfo {
+      font-size: 18px;
+      color: #555;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <h2 style="margin:0;">EldCare Location</h2>
+    <div class="btn-group">
+      <button class="back-btn" onclick="goBack()">Back</button>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main>
+    <h1>📍 Current Location</h1>
+    <div id="locationInfo">Fetching location...</div>
+  </main>
+
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+
+    function logout() {
+      localStorage.removeItem('eldcare_current_user');
+      window.location.href = 'login.html';
+    }
+
+    // Function to get current location
+    function showLocation(position) {
+      const { latitude, longitude } = position.coords;
+      document.getElementById('locationInfo').innerText = 
+        `Latitude: ${latitude.toFixed(5)}, Longitude: ${longitude.toFixed(5)}`;
+    }
+
+    function locationError(error) {
+      document.getElementById('locationInfo').innerText = 
+        `Unable to retrieve location: ${error.message}`;
+    }
+
+    function fetchLocation() {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(showLocation, locationError);
+      } else {
+        document.getElementById('locationInfo').innerText = 
+          "Geolocation is not supported by your browser.";
+      }
+    }
+
+    // Fetch location on page load
+    window.onload = fetchLocation;
+  </script>
+</body>
+</html>

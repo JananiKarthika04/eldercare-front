@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Motion Detection | EldCare</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .header {
+      background: white;
+      padding: 10px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .back-btn, .logout-btn {
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 8px 16px;
+      transition: background-color 0.3s ease;
+      color: white;
+    }
+
+    .back-btn {
+      background-color: #1976d2;
+      width: 60px;
+    }
+
+    .back-btn:hover {
+      background-color: #0d47a1;
+    }
+
+    .logout-btn {
+      background-color: #d32f73;
+    }
+
+    .logout-btn:hover {
+      background-color: #b71c1c;
+    }
+
+    main {
+      padding: 30px;
+      text-align: center;
+      min-height: calc(100vh - 60px);
+      background: #f9f9f9;
+    }
+
+    h1 {
+      color: #1976d2;
+      margin-bottom: 20px;
+    }
+
+    #motionStatus {
+      font-size: 18px;
+      color: #555;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <h2 style="margin:0;">EldCare Motion Detection</h2>
+    <div class="btn-group">
+      <button class="back-btn" onclick="goBack()">Back</button>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main>
+    <h1>🎯 Motion Detection Status</h1>
+    <div id="motionStatus">Waiting for motion data...</div>
+  </main>
+
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+
+    function logout() {
+      localStorage.removeItem('eldcare_current_user');
+      window.location.href = 'login.html';
+    }
+
+    // Detect motion using DeviceMotionEvent
+    function handleMotion(event) {
+      const acc = event.accelerationIncludingGravity;
+      if (!acc) {
+        document.getElementById('motionStatus').innerText = "No motion data available.";
+        return;
+      }
+      const x = acc.x ? acc.x.toFixed(2) : '0.00';
+      const y = acc.y ? acc.y.toFixed(2) : '0.00';
+      const z = acc.z ? acc.z.toFixed(2) : '0.00';
+
+      let motionDetected = Math.abs(acc.x) > 1 || Math.abs(acc.y) > 1 || Math.abs(acc.z) > 1;
+      let statusText = motionDetected ? "Motion detected!\n" : "No significant motion detected.\n";
+      statusText += `Acceleration (including gravity):\nX: ${x}\nY: ${y}\nZ: ${z}`;
+
+      document.getElementById('motionStatus').innerText = statusText;
+    }
+
+    // Check if DeviceMotionEvent is supported
+    if (window.DeviceMotionEvent) {
+      window.addEventListener('devicemotion', handleMotion);
+    } else {
+      document.getElementById('motionStatus').innerText = "DeviceMotion is not supported on this device/browser.";
+    }
+  </script>
+</body>
+</html>

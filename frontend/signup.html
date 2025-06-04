@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sign Up | EldCare</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+  <a href="index.html" style="text-decoration:none; color: inherit;">
+    <h2 style="cursor:pointer;">EldCare</h2>
+  </a>
+  <div class="settings-icon">⚙️</div>
+</header>
+  <main class="main-container">
+    <section class="login-section">
+      <div class="login-box">
+        <div class="icon">📝</div>
+        <h2>Create Account</h2>
+        <p>Join EldCare now</p>
+        <form onsubmit="event.preventDefault(); registerUser();">
+          <label>Name</label>
+          <input type="text" placeholder="John Doe" required />
+          <label>Email</label>
+          <input type="email" placeholder="john@gmail.com" required />
+          <label>Password</label>
+          <input type="password" placeholder="********" required />
+          <button type="submit">Register</button>
+        </form>
+        <p class="create-account">Already have an account? <a href="login.html">Sign in</a></p>
+      </div>
+    </section>
+    <section class="image-section">
+      <img src="login.png" alt="Signup Image" />
+      <h2>Welcome to EldCare!</h2>
+      <p>Your wellness journey starts here. Sign up now.</p>
+    </section>
+  </main>
+
+  <script>
+    function registerUser() {
+      const name = document.querySelector('input[type="text"]').value.trim();
+      const email = document.querySelector('input[type="email"]').value.trim();
+      const password = document.querySelector('input[type="password"]').value.trim();
+
+      let users = JSON.parse(localStorage.getItem('eldcare_users')) || [];
+
+      const userExists = users.find(user => user.email === email);
+
+      if (userExists) {
+        alert("Account already exists. Redirecting to login...");
+        window.location.href = "login.html";
+      } else {
+        const newUser = { name, email, password };
+        users.push(newUser);
+        localStorage.setItem('eldcare_users', JSON.stringify(users));
+
+        // Set current user here so user is logged in immediately after signup
+        localStorage.setItem('eldcare_current_user', JSON.stringify(newUser));
+
+        alert("Registration successful! Redirecting to home...");
+        window.location.href = "home.html";
+      }
+    }
+  </script>
+</body>
+</html>

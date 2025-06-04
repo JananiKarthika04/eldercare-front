@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login | EldCare</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+ <header class="header">
+  <a href="index.html" style="text-decoration:none; color: inherit;">
+    <h2 style="cursor:pointer;">EldCare</h2>
+  </a>
+  <div class="settings-icon">⚙️</div>
+</header>
+
+  <main class="login-section">
+    <div class="login-box">
+      <div class="icon">🔐</div>
+      <h2>Welcome Back</h2>
+      <p>Sign in to your account</p>
+      <form onsubmit="event.preventDefault(); loginUser();">
+        <label>Email</label>
+        <input type="email" placeholder="you@a.gmail" required />
+        <label>Password</label>
+        <input type="password" placeholder="********" required />
+        <button type="submit">Sign in</button>
+      </form>
+      <p class="create-account">Don't have an account? <a href="signup.html">Create account</a></p>
+    </div>
+
+    <div class="image-section">
+      <img src="login.png" alt="Login Image" />
+      <h2>Welcome back!</h2>
+      <p>Sign in to continue your journey with EldCare.</p>
+    </div>
+  </main>
+
+  <script>
+    function loginUser() {
+      const enteredEmail = document.querySelector('input[type="email"]').value.trim();
+      const enteredPassword = document.querySelector('input[type="password"]').value.trim();
+
+      let users = JSON.parse(localStorage.getItem('eldcare_users')) || [];
+
+      const matchedUser = users.find(user =>
+        user.email === enteredEmail && user.password === enteredPassword
+      );
+
+      if (matchedUser) {
+        // Save current user info for session
+        localStorage.setItem('eldcare_current_user', JSON.stringify(matchedUser));
+
+        alert("Login successful!");
+        window.location.href = "home.html";
+      } else {
+        alert("Invalid email or password.");
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Alert | EldCare</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Keep consistent styling for buttons */
+    .header {
+      background: white;
+      padding: 10px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .back-btn, .logout-btn {
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 8px 16px;
+      transition: background-color 0.3s ease;
+      color: white;
+    }
+
+    .back-btn {
+      background-color: #1976d2;
+      width: 60px;
+    }
+
+    .back-btn:hover {
+      background-color: #0d47a1;
+    }
+
+    .logout-btn {
+      background-color: #d32f73;
+    }
+
+    .logout-btn:hover {
+      background-color: #b71c1c;
+    }
+
+    main {
+      padding: 30px;
+      text-align: center;
+      min-height: calc(100vh - 60px);
+      background: #f9f9f9;
+    }
+
+    h1 {
+      color: #d32f2f;
+      margin-bottom: 20px;
+    }
+
+    .alert-info {
+      font-size: 18px;
+      color: #555;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <h2 style="margin:0;">EldCare Alert</h2>
+    <div class="btn-group">
+      <button class="back-btn" onclick="goBack()">Back</button>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main>
+    <h1>🚨 Emergency Alerts</h1>
+    <p class="alert-info">
+      Here you will receive all important emergency notifications and alerts related to health and safety. 
+      Make sure to respond promptly to any alerts shown here to ensure the well-being of the user.
+    </p>
+  </main>
+
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+
+    function logout() {
+      localStorage.removeItem('eldcare_current_user');
+      window.location.href = 'login.html';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Heart Rate | EldCare</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .header {
+      background: white;
+      padding: 10px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .back-btn, .logout-btn {
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 8px 16px;
+      transition: background-color 0.3s ease;
+      color: white;
+    }
+
+    .back-btn {
+      background-color: #1976d2;
+      width: 60px;
+    }
+
+    .back-btn:hover {
+      background-color: #0d47a1;
+    }
+
+    .logout-btn {
+      background-color: #d32f73;
+    }
+
+    .logout-btn:hover {
+      background-color: #b71c1c;
+    }
+
+    main {
+      padding: 30px;
+      text-align: center;
+      min-height: calc(100vh - 60px);
+      background: #f9f9f9;
+    }
+
+    h1 {
+      color: #d32f2f;
+      margin-bottom: 20px;
+    }
+
+    .heart-rate {
+      font-size: 48px;
+      font-weight: bold;
+      color: #1976d2;
+      margin-bottom: 20px;
+    }
+
+    .info {
+      font-size: 18px;
+      color: #555;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <h2 style="margin:0;">EldCare Heart Rate</h2>
+    <div class="btn-group">
+      <button class="back-btn" onclick="goBack()">Back</button>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main>
+    <h1>❤️ Current Heart Rate</h1>
+    <div class="heart-rate" id="heartRateValue">-- BPM</div>
+    <p class="info">
+      This shows the current heart rate reading from your wearable device.
+      Please make sure the device is connected and functioning properly.
+    </p>
+  </main>
+
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+
+    function logout() {
+      localStorage.removeItem('eldcare_current_user');
+      window.location.href = 'login.html';
+    }
+
+    // Example: Update heart rate value every 5 seconds (mock data)
+    function updateHeartRate() {
+      // Replace this with real data fetching logic
+      const randomBPM = Math.floor(60 + Math.random() * 40);
+      document.getElementById('heartRateValue').innerText = randomBPM + " BPM";
+    }
+
+    setInterval(updateHeartRate, 5000);
+    updateHeartRate(); // initial call
+  </script>
+</body>
+</html>
